@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+	<title></title>
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<body>
+	
+	{% if request.user.is_authenticated %}
+		<a href="{% url 'logout' %}"><button>Выйти</button></a>
+	{% else %}
+		<a href="{% url 'login' %}">Войти</a>
+	{% endif %}
+
+	<div>кликов сейчас<h1 id='space'>{{counts}}</h1></div>
+	<div>кликов за все время<h1 id='money_all_time'>{{counts_all_time}}</h1></div>
+	
+	
+
+	<div>Всего монет<h1 id='get_money'>{{money}}</h1></div>
+	<button onclick="buy(this)">Купить 1 монету</button>	
+
+	<button onclick="f(this)">click</button>
+<script type="text/javascript">
+	function buy(el){
+		$.ajax({
+			type: "GET",
+			url:"buy_money/",
+			data: {
+				'data': 'yes'
+			},
+			success: function(data){
+				
+				var test = eval('('+data+')')
+				console.log(test);
+				
+				if (test.success == 'no'){
+					alert('Недостаточно кликов!');
+				}
+				else{	
+				var space = document.getElementById("space");
+				var money = document.getElementById("get_money");
+
+				var data = data;
+				money.innerHTML = data;
+				console.log(space);
+				space.innerHTML -= 100;
+			}
+			}
+		})
+	}
+
+	function f(el){ 
+          var num = 0;
+          
+          
+          $.ajax({
+          type: "GET",
+          url: 'test/',
+          data: {
+            'post_id': 'yes'
+          },
+      	  success: function(data){
+		  
+		  var response = eval('('+data+')')
+
+		  var counts = response.now
+		  
+		  var all_time = response.all_time
+
+		  var space = document.getElementById("space");
+		  var money_all_time = document.getElementById('money_all_time');
+		  money_all_time.innerHTML = all_time;
+          space.innerHTML = counts;
+          }})}
+          
+      </script>
+</body>
+</html>

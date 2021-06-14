@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" >
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <title>Пудж Кликер</title>
+  <link rel="stylesheet" href="{% static 'style_cab.css' %}">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html>
+    <head>
+        <script type="text/javascript" src="js/cookie.js"></script>
+        <title>Shark Bait's Cookie Clicker Game!</title>
+        <link rel = "stylesheet" href = "{% static 'style_cab.css' %}"/>
+    </head>
+
+    <body>
+         <!-- HEADER -->
+    <header class="header">
+      <!-- NAV -->
+      <nav class="nav container">
+        <div class="logo">
+          <a href="">
+            <span>CLICKER</span><img src="" alt=""
+          /></a>
+        </div>
+
+        <!-- NAV LIST -->
+        <div class="menu">
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a  class="nav-link">{{request.user}}</a>
+            </li>
+            <li class="nav-item">
+              <a  class="nav-link" href="{% url 'logout' %}">ВЫЙТИ</a>
+            </li>
+         
+          </ul>
+        </div>
+
+        <a  class="cart">
+          <img src="./icons/shopping-bag.svg" alt="" />
+        </a>
+
+        <div class="hamburger">
+          <img src="./icons/menu.svg" alt="" />
+        </div>
+      </nav>
+        
+        <div class="middle">
+     <a class="button-hoverr" href="{% url 'main_handler' %}">ВЕРНУТЬСЯ В ИГРУ</a> 
+       <a class="button-hoverr" href="#">ВСЕГО КЛИКОВ: {{request.user.quantity_clicks}}</a> 
+        <a class="button-hoverr" href="#"> КЛИКОВ СЕЙЧАС: {{request.user.clicks_now}}</a> 
+      
+       <a class="button-hoverr" href="#">ВСЕГО МОНЕТ: {{request.user.money_all_times}}</a> 
+        <a class="button-hoverr" href="#">  МОНЕТ СЕЙЧАС: {{request.user.balance}} :</a> 
+
+         <a class="button-hoverr" href="#">ТЕКУЩИЙ БУСТ: {{boost}}</a> 
+           
+    </div>
+         
+    </div>
+    
+
+        
+
+       
+ <a href = "#" id="popup-btn">
+               <span>СИСТЕМА БУСТОВ</span>
+            </a>
+        </table>
+    </body>
+</html>
+<div id="modal-area">
+    <div class="modal-content text-center">
+      <div class="modal-close">+</div>
+      <h3>BOOSTS</h3>
+       <img src = "{% static 'boosts.jpg' %}" alt = "shoe image">
+    </div>
+  </div>
+<!-- partial -->
+  <script  src="{% static 'script_cab.js' %}"></script>
+
+</body>
+</html>

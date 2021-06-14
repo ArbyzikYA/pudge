@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+{%load bootstrap4%}
+<head>
+	<title></title>
+</head>
+<body>
+	{%bootstrap_css%}
+	<form method="post">
+		{% csrf_token %}
+		{%bootstrap_form user_form%}
+		<button type="submit" class="btn btn-success">зарегестрироваться</button>
+	</form>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" >
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>Пудж Кликер</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html>
+    <head>
+        <script type="text/javascript" src="js/cookie.js"></script>
+        <title>Shark Bait's Cookie Clicker Game!</title>
+        <link rel = "stylesheet" href = "{% static 'style.css' %}"/>
+    </head>
+
+    <body>
+         <!-- HEADER -->
+    <header class="header">
+      <!-- NAV -->
+      <nav class="nav container">
+        <div class="logo">
+          <a href="">
+            <span>CLICKER</span><img src="" alt=""
+          /></a>
+        </div>
+
+        <!-- NAV LIST -->
+        <div class="menu">
+          <ul class="nav-list">
+            
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a href="{% url 'profile' %}" class="nav-link">АККАУНТ</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'logout' %}" class="nav-link">ВЫЙТИ</a>
+            </li>
+            {% else %}
+              <li class="nav-item">
+              <a href="{% url 'login' %}" class="nav-link">ВОЙТИ</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{% url 'register_user' %}" class="nav-link">РЕГИСТРАЦИЯ</a>
+            </li>
+            {% endif %}
+         <li class="nav-item">
+              <a  class="nav-link"> МОНЕТ: </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="money">{{money}}</a> 
+            </li>
+            <li class="nav-item">
+              <a  class="nav-link"> КЛИКОВ: </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="clicks">{{counts_all_time}}</a> 
+            </li>
+          </ul>
+        </div>
+
+        <a  class="cart">
+          <img src="./icons/shopping-bag.svg" alt="" />
+        </a>
+
+        <div class="hamburger">
+          <img src="./icons/menu.svg" alt="" />
+        </div>
+      </nav>
+        
+        <div onclick="cookieClick(this)">
+          <div class="rooooooo">
+ <img src="{% static 'rom.png' %}" width="200px"/>
+        </div>
+    </div>
+        
+        <p>Кликов сейчас :</p>
+        
+        <div ><h1 id = "clicks_now">{{counts}}</h1></div>
+         <div class="middle">
+     
+       <a class="button-hover" onclick="buy_money()" href="#">КУПИТЬ МОНЕТУ(1000 кликов)</a> 
+      
+         <a class="button-hover" id="X8" onclick="buy_boost_x8()" href="#">X8(5 монет)</a> 
+
+         <a class="button-hover" id="X10" onclick="buy_boost_x10()" href="#">X10(10 монет)</a> 
+           <a class="button-hover" id="X15" onclick="buy_boost_x15()" href="#">X15(15 монет)</a> 
+    </div>
+    
+
+        <div id="upgradeLevel">{{boost}}</div>
+
+        <p>Кликай по пуджу, чтобы заработать монеты, </p>
+        <p> с помощью монет можно купить дополнительный буст:)</p>
+ <a href = "#" id="popup-btn">
+               <span>СИСТЕМА БУСТОВ</span>
+            </a>
+        </table>
+    </body>
+</html>
+<div id="modal-area">
+    <div class="modal-content text-center">
+      <div class="modal-close">+</div>
+      <h3>BOOSTS</h3>
+       <img src = "{% static 'boosts.jpg' %}" alt = "shoe image">
+    </div>
+  </div>
+<!-- partial -->
+  <script>
+    //initial number of cookies    
+
+function buy_money(el){
+    $.ajax({
+      type: "GET",
+      url:"buy_money/",
+      data: {
+        'data': 'yes'
+      },
+      success: function(data){
+        
+        var test = eval('('+data+')')
+        console.log(test);
+        
+        if (test.success == 'no'){
+          alert('Недостаточно кликов!');
+        }
+        else{ 
+        var space = document.getElementById("clicks");
+        var money = document.getElementById("money");
+        var clicks = document.getElementById('clicks_now');
+
+        clicks.innerHTML -= 1000;
+        var data = data;
+        money.innerHTML = data;
+        console.log(space);
+        
+      }
+      }
+    })
+  }
+
+function buy_boost_x8(el){
+    $.ajax({
+          type: "GET",
+          url: 'buy_boost_x8/',
+          data: {
+            'data': 'x8'
+          },
+          success: function(data){
+          var data = eval('('+data+')')
+          if (data.v == 'no'){
+            alert('Недостаточно монет!')
+          }
+          else if (data.v == 'yes'){
+            alert('Буст уже куплен!');
+          }
+          else{
+            var m = document.getElementById('money')
+            var b = document.getElementById('upgradeLevel')
+            m.innerHTML -= 5
+            b.innerHTML = 'x8'
+          }
+          }})
+}
+
+function buy_boost_x10(el){
+    $.ajax({
+          type: "GET",
+          url: 'buy_boost_x8/',
+          data: {
+            'data': 'x10'
+          },
+          success: function(data){
+          var data = eval('('+data+')')
+          if (data.v == 'no'){
+            alert('Недостаточно монет!')
+          }
+          else if (data.v == 'yes'){
+            alert('Буст уже куплен!');
+          }
+          else{
+            var m = document.getElementById('money')
+            var b = document.getElementById('upgradeLevel')
+            b.innerHTML = 'x10'
+            m.innerHTML -= 10
+          }
+          }})
+}
+
+function buy_boost_x15(el){
+    $.ajax({
+          type: "GET",
+          url: 'buy_boost_x8/',
+          data: {
+            'data': 'x15'
+          },
+          success: function(data){
+          var data = eval('('+data+')')
+          if (data.v == 'no'){
+            alert('Недостаточно монет!')
+          }
+          else if (data.v == 'yes'){
+            alert('Буст уже куплен!');
+          }
+          else{
+            var m = document.getElementById('money')
+            var b = document.getElementById('upgradeLevel')
+            b.innerHTML = 'x15'
+            m.innerHTML -= 15
+          }
+          }})
+}
+
+function cookieClick(el) { 
+  
+    
+    
+    $.ajax({
+          type: "GET",
+          url: 'test/',
+          data: {
+            'post_id': 'yes'
+          },
+          success: function(data){
+      
+      var response = eval('('+data+')')
+
+      var all_time = response.all_time  
+
+      var counts = response.now
+
+      var boost = response.boosts;  
+        
+      var space = document.getElementById("clicks");
+
+      var numbers = document.getElementById("clicks_now");
+    
+      var upgradeLevel = document.getElementById("upgradeLevel");
+    
+
+      space.innerHTML = all_time;
+      numbers.innerHTML = counts;
+      upgradeLevel.innerHTML = boost;
+          }})  
+
+    
+}
+   document.getElementById("popup-btn").addEventListener("click", function(){
+    document.getElementById("modal-area").style.display = "flex";
+})
+
+document.querySelector(".modal-close").addEventListener('click', function(){
+    document.getElementById("modal-area").style.display = "none";
+})
+document.getElementById("popup-btn").addEventListener("click", function(){
+    document.getElementById("modal-area").style.display = "flex";
+})
+
+document.querySelector(".modal-close").addEventListener('click', function(){
+    document.getElementById("modal-area").style.display = "none";
+})
+
+  </script>
+
+</body>
+</html>
